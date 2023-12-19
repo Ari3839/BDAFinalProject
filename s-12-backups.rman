@@ -1,0 +1,21 @@
+-- @Autor		Ariadna Lazaro & Brian Bautista
+-- @Fecha		04/dic/2023
+-- @Descripcion:Creación de un backup full cada 2 meses
+
+--Ejecutar con rman target sys@balaproy_de @s-12-backups.rman
+
+--Respaldo completo
+
+run {
+  --Configuraciones previas
+  --configure retention policy to redundancy 1;
+  configure backup optimization on;
+  configure archivelog deletion policy to backed up 2 times to disk;
+
+  shutdown immediate;
+  startup mount;
+  backup as backupset incremental level 0 database tag db_level_0;
+  --delete obsolete;
+  alter database open;
+  list backup summary;
+}

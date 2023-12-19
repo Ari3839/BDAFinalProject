@@ -1,0 +1,16 @@
+-- @Autor   Ariadna Lazaro & Brian Bautista
+-- @Fecha   04/dic/2023
+-- @Descripcion:Creación de un backup incremental cada semana.
+
+--Ejecutar con rman target sys@balaproy_de @s-12-backups-incremental.rman
+
+--Respaldo incremental diferencial cada semana
+
+run {
+  shutdown immediate;
+  startup mount;
+  backup as backupset incremental level 1 database tag db_level_1;
+  --delete obsolete;
+  alter database open;
+  list backup summary;
+}
